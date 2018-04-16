@@ -97,6 +97,7 @@
 		ECF249272084801600312D8F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = VA;
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = intern;
 				TargetAttributes = {
@@ -278,8 +279,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ViewAnimator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hirerussians.ViewAnimator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -291,8 +294,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ViewAnimator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hirerussians.ViewAnimator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
