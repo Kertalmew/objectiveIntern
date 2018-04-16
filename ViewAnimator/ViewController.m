@@ -12,14 +12,13 @@
 
 @property (nonatomic, retain) IBOutlet UITextField* speedTF;
 @property (nonatomic, retain) IBOutlet UITextField* countTF;
-@property (nonatomic, retain) IBOutlet UIButton* runButton;
+@property (retain, nonatomic) IBOutlet UISegmentedControl *runSegmentedControl;
 @property (nonatomic, retain) IBOutlet UIImageView* image;
 @property (nonatomic, assign) int speed;
 @property (nonatomic, assign) int countSquares;
 @property (nonatomic, assign) int radius;
 @property (nonatomic, assign) double angle;
 @property (nonatomic, assign) BOOL work;
-@property (nonatomic, retain) NSArray* titles;
 @property (nonatomic, retain) NSTimer* timer;
 @property (nonatomic) CGPoint axis;
 @property (nonatomic, retain) NSMutableArray* squares;
@@ -30,7 +29,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.titles = [NSArray arrayWithObjects:[self.runButton currentTitle], @"Stop", nil];
     self.speed = 10;
     self.countSquares = 1;
     self.axis = self.image.center;
@@ -46,7 +44,6 @@
 
 - (void)viewWillDisappear{
     [self.squares release];
-    [self.titles release];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,14 +52,9 @@
 }
 
 - (IBAction) didTapButton:(id)sender {
-//    [self.speedTF resignFirstResponder];
-//    [self.countTF resignFirstResponder];
-   // self.speed = [self.speedTF.text intValue];
-    if([self.runButton isSelected]){
-        self.speed = 100;
-    }
-//    if([self.runButton state] == UIControlStateFocused){
-    if([self.runButton.currentTitle isEqualToString:[self.titles objectAtIndex:0]]){
+    [self.speedTF resignFirstResponder];
+    [self.countTF resignFirstResponder];
+    if([self.runSegmentedControl selectedSegmentIndex] == 1){
         //проверка
         if([self.speedTF.text intValue] == 0 || [self.countTF.text intValue] < 1){
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Wrong params"
@@ -74,19 +66,18 @@
             
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
+            [self.runSegmentedControl setSelectedSegmentIndex:0];
             //need release????
             return;
         }
         [self.countTF setEnabled:NO];
         [self.speedTF setEnabled:NO];
-        [self.runButton setTitle:[self.titles objectAtIndex:1] forState: UIControlStateNormal];
         self.work = YES;
         [self initialazeSquares];
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.03 target:self selector:@selector(timerMove) userInfo:nil repeats:YES];
     }else{
         [self.countTF setEnabled:YES];
         [self.speedTF setEnabled:YES];
-        [self.runButton setTitle:[self.titles objectAtIndex:0] forState: UIControlStateNormal];
         self.work = NO;
         [self.timer invalidate];
     }
@@ -110,9 +101,7 @@
     for (int i = 1; i < self.countSquares; i++){
         UIImageView* imageTmp = [[UIImageView alloc] initWithFrame:CGRectMake(cos(self.angle + deltaA * i) * self.radius + self.axis.x - 40,
                                                                               sin(self.angle + deltaA * i) * self.radius + self.axis.y + 100 - 40, 80, 80)];
-        UIColor* red = [UIColor redColor];
-        [imageTmp setBackgroundColor:red];
-//        [self.squares ]
+        [imageTmp setBackgroundColor: [self.image backgroundColor]];
         [self.squares addObject:imageTmp];
         [self.view addSubview:imageTmp];
         
@@ -134,4 +123,8 @@
 }
 
 
+- (void)dealloc {
+    [_runSegmentedControl release];
+    [super dealloc];
+}
 @end
